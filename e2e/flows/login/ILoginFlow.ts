@@ -1,5 +1,5 @@
-import { LoginFormData, ProjectLoginCapabilities } from '../../types/login.type';
+import { LoginFormData, LoginSession, ProjectLoginCapabilities } from '../../types/login.type';
 
 export interface ILoginFlow {
-  execute(data: LoginFormData, config: ProjectLoginCapabilities): Promise<void>;
+  execute(data: LoginFormData, config: ProjectLoginCapabilities): Promise<LoginSession>;
 }

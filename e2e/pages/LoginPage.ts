@@ -1,4 +1,5 @@
 import { LoginFormData } from '../types/login.type';
+import { getJwtFromBrowser } from '../utils/authToken';
 import { BasePage } from './BasePage';
 export class LoginPage extends BasePage {
   private usernameInput = this.page.locator('input[name="username"]');
@@ -19,6 +20,11 @@ export class LoginPage extends BasePage {
   }
 
   async submit() {
+    await this.submitButton.waitFor({ state: 'visible' });
     await this.submitButton.click();
+  }
+
+  async getSessionToken() {
+    return getJwtFromBrowser(this.page);
   }
 }

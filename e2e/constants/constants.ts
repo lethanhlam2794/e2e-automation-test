@@ -3,3 +3,8 @@ export const URL_LINKS = {
     LOGIN: '/login',
     DASHBOARD: '/dashboard',
 }
+
+export enum LOGIN_FLOW {
+    STANDARD = 'standard',
+    ADMIN = 'admin',
+}
