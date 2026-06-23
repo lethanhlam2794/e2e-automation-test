@@ -1,0 +1,38 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  e2e:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [project-a, project-b]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps
+
+      - name: Run E2E (${{ matrix.project }})
+        run: npx playwright test --project=${{ matrix.project }} --grep @happy
+        env:
+          PROJECT_A_URL: ${{ secrets.PROJECT_A_URL }}
+          PROJECT_B_URL: ${{ secrets.PROJECT_B_URL }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 7
